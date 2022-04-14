@@ -1,0 +1,83 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+double get_oprand()                          //获取操作数
+{
+	double value;
+	scanf_s("%lf", &value);
+	return value;
+}
+
+char get_operator()                          //获取四则运算符
+{
+	char op;
+	do
+	{
+		scanf_s("%c", &op);
+	} while (op == ' ');
+	return op;
+}
+
+int prior(char op1, char op2)              //判断运算符优先级
+{
+	int flag;
+	if (op1 == '*' || op1 == '/')
+		if (op2 == '+' || op2 == '-')
+			flag = 1;
+		else flag = 0;
+	else if (op2 == '*' || op2 == '/')
+		flag = -1;
+	else flag = 0;
+	return flag;
+}
+
+double evaluates(double left, char op, double right)       //四则运算
+{
+	{
+		switch (op)
+		{
+		case '+':return left + right; break;
+		case '-':return left - right; break;
+		case '*':return left * right; break;
+		case '/':
+			if (right != 0)
+				return left / right;
+			else
+			{                              //除数为零
+				printf("除数不合法，检查是否为零\n");
+				exit(1);                   //强制结束程序
+			}
+		default:return 0.0;
+		}
+	}
+}
+
+
+int main()
+{
+	double value1, value2, value3, result;
+	char op1, op2;         //四则运算符
+	printf("输入四则运算\n请输入：\n");
+        
+	value1 = get_oprand();
+	op1 = get_operator();
+	value2 = get_oprand();
+	op2 = get_operator();
+	while (op2 != '\n')                    //没有结束时
+	{
+		value3 = get_oprand();
+		if (prior(op2, op1))
+			value2 = evaluates(value2, op2, value3);
+		else
+		{
+			value1 = evaluates(value1, op1, value2);
+			op1 = op2;
+			value2 = value3;
+		}
+		op2 = get_operator();
+	}
+	result = evaluates(value1, op1, value2);      //最后两个数之和
+
+	printf("结果为%lf\n", result);
+	return 0;
+}
