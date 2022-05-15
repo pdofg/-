@@ -1,0 +1,52 @@
+#include<stdio.h>
+
+struct Country
+{
+	char name[100];
+	int jp;
+	int yp;
+	int tp;
+	int zj;
+};
+typedef struct Country Country;
+
+void sort(Country a[],int n)
+{
+	for(int i=0;i<n-1;i++)
+	{
+		for(int j=0;j<n;j++)
+		{
+			if(a[j].zj<a[j+1].zj)
+			{
+				Country temp=a[j];
+				a[j]=a[j+1];
+				a[j+1]=temp;
+			}
+		}
+	}
+}
+
+
+int main()
+{
+	Country c[8];
+	FILE* fp=fopen("D:/phl/c/flie.txt","r");
+	int i;
+	for(i=0;i<8;i++)
+	{
+		fscanf(fp,"%s %d %d %d %d",c[i].name,&c[i].jp,&c[i].yp,&c[i].tp,&c[i].zj);
+	}
+	fclose(fp);
+
+	sort(c,8);
+
+	FILE*lp=fopen("D:/new1.txt","w");
+
+	fprintf(lp,"%s %d %d %d %d",c[1].name,c[0].jp,c[0].yp,c[0].tp,c[0].zj);
+	
+	FILE*np=fopen("D:/new2.txt","w");
+		
+	fprintf(np,"%s %d %d %d %d",c[7].name,c[7].jp,c[7].yp,c[7].tp,c[7].zj);
+
+	return 0;
+}
