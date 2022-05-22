@@ -1,0 +1,51 @@
+#include<stdio.h>
+
+struct Country
+{
+	char name[100];
+	int jp;
+	int yp;
+	int tp;
+	int zj;
+};
+typedef struct Country Country;
+
+void sort(Country a[],int n)
+{
+	for(int i=0;i<n-1;i++)
+	{
+		for(int j=0;j<n;j++)
+		{
+			if(a[j].jp<a[j+1].jp)
+			{
+				Country temp=a[j];
+				a[j]=a[j+1];
+				a[j+1]=temp;
+			}
+		}
+	}
+}
+
+
+int main()
+{
+	Country c[8];
+	FILE* fp=fopen("D:/phl/c/flie.txt","r");
+	int i;
+	for(i=0;i<8;i++)
+	{
+		fscanf(fp,"%s %d %d %d %d",c[i].name,&c[i].jp,&c[i].yp,&c[i].tp,&c[i].zj);
+	}
+	fclose(fp);
+
+	sort(c,8);
+
+	FILE*lp=fopen("D:/file_sorted.txt","w");
+	for(int j=7;j>=0;j--)
+	{	
+		fprintf(lp,"%s\t%d\t%d\t%d\t%d\n",c[j].name,c[j].jp,c[j].yp,c[j].tp,c[j].zj);
+	}
+	fclose(lp);
+	printf("运行结束，请查看生成文件。\n");
+	return 0;
+}
